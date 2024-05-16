@@ -1,35 +1,60 @@
 import { Input } from "../../../../components/Input";
 import { Modal } from "../../../../components/Modal";
 import { InputCurrency } from "../../../../components/InputCurrency";
-import { useNewAccountModalController } from "./useNewAccountModalController";
+import { useEditAccountModalController } from "./useEditAccountModalController";
 import { Select } from "../../../../components/Select";
 import { ColorsDropDownInput } from "../../../../components/ColorsDropDownInput";
 import { options } from "../../../../../app/config/constants";
 import { Button } from "../../../../components/Button";
 import { Controller } from "react-hook-form";
+import { TrashIcon } from "../../../../components/icons/TrashIcon";
+import { ConfirmDeleteModal } from "../../../../components/ConfirmDeleteModal";
 
-export function NewAccountModal() {
+export function EditAccountModal() {
   const {
-    closeNewAccountModal,
-    isNewAccountModalOpen,
+    closeEditAccountModal,
+    isEditAccountModalOpen,
     errors,
     handleSubmit,
     register,
     control,
     isLoading,
-  } = useNewAccountModalController();
+    isDeleteModalOpen,
+    handleOpenDeleteModal,
+    handleCloseDeleteModal,
+    handleDeleteAccount,
+    isLoadingDelete,
+  } = useEditAccountModalController();
+
+  if (isDeleteModalOpen) {
+    return (
+      <ConfirmDeleteModal
+        title="Tem certeza que deseja excluir esta conta?"
+        description="
+          Ao excluir a conta, também serão excluidos todos os registros de
+          receita e despesas relacionados
+        "
+        onClose={handleCloseDeleteModal}
+        onConfirm={handleDeleteAccount}
+        isLoading={isLoadingDelete}
+      />
+    );
+  }
 
   return (
     <Modal
-      title="Nova Conta"
-      open={isNewAccountModalOpen}
-      onClose={closeNewAccountModal}
+      title="Editar Conta"
+      open={isEditAccountModalOpen}
+      onClose={closeEditAccountModal}
+      rightAction={
+        <button onClick={handleOpenDeleteModal}>
+          <TrashIcon className="w-6 h-6 text-red-900" />
+        </button>
+      }
     >
       <form onSubmit={handleSubmit}>
         <div>
-          <span className="text-gray-600 text-xs tracking-[-0.5px]">
-            Saldo inicial
-          </span>
+          <span className="text-gray-600 text-xs tracking-[-0.5px]">Saldo</span>
           <div className="flex items-center gap-2">
             <span className="text-gray-600 text-lg tracking-[-0.5px]">R$</span>
 
@@ -86,7 +111,7 @@ export function NewAccountModal() {
         </div>
 
         <Button type="submit" className="w-full mt-6" isLoading={isLoading}>
-          Criar
+          Salvar
         </Button>
       </form>
     </Modal>

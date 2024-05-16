@@ -4,18 +4,17 @@ import { z } from "zod";
 import { authService } from "../../../app/services/authService";
 import toast from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
-import { signIn, SignInParams } from "../../../app/services/authService/signIn";
+import { SignInParams } from "../../../app/services/authService/signIn";
 import { useAuth } from "../../../app/hooks/useAuth";
 
 const schema = z.object({
   email: z
     .string()
-    .nonempty("E-mail é obrigatório")
+    .min(1, "E-mail é obrigatório")
     .email("Informe um e-mail válido"),
   password: z
     .string()
-    .nonempty("Senha é obrigatória")
-    .min(8, "A senha deve conter pelo menos 8 dígitos"),
+    .min(8, "Senha é obrigatória e deve conter pelo menos 8 dígitos"),
 });
 
 type FormData = z.infer<typeof schema>;

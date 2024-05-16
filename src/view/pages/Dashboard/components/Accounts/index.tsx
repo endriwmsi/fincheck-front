@@ -20,6 +20,7 @@ export function Accounts() {
     isLoading,
     accounts,
     openNewAccountModal,
+    currentBalance,
   } = useAccountsController();
 
   return (
@@ -44,7 +45,7 @@ export function Accounts() {
                   !areValuesVisible && "blur-md"
                 )}
               >
-                {formatCurrency(1000)}
+                {formatCurrency(currentBalance)}
               </strong>
 
               <button
@@ -82,7 +83,7 @@ export function Accounts() {
               <div>
                 <Swiper
                   spaceBetween={16}
-                  slidesPerView={windowWidth >= 500 ? 2.1 : 1.1}
+                  slidesPerView={windowWidth >= 500 ? 3.1 : 1.1}
                   onSlideChange={(swiper) => {
                     setSliderState({
                       isBeginning: swiper.isBeginning,
@@ -104,32 +105,11 @@ export function Accounts() {
                     />
                   </div>
 
-                  <SwiperSlide>
-                    <AccountCard
-                      name="Nubank"
-                      color="#7950f2"
-                      balance={1000.23}
-                      type="CHECKING"
-                    />
-                  </SwiperSlide>
-
-                  <SwiperSlide>
-                    <AccountCard
-                      name="XP"
-                      color="#0f0"
-                      balance={1000.23}
-                      type="CASH"
-                    />
-                  </SwiperSlide>
-
-                  <SwiperSlide>
-                    <AccountCard
-                      name="XP"
-                      color="#0f0"
-                      balance={1000.23}
-                      type="CASH"
-                    />
-                  </SwiperSlide>
+                  {accounts.map((account) => (
+                    <SwiperSlide key={account.id}>
+                      <AccountCard data={account} />
+                    </SwiperSlide>
+                  ))}
                 </Swiper>
               </div>
             )}
