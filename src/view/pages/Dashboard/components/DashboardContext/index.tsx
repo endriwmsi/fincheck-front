@@ -5,11 +5,11 @@ interface DashboardContextValue {
   areValuesVisible: boolean;
   isNewAccountModalOpen: boolean;
   isNewTransactionModalOpen: boolean;
-  newTransactionType: "INCOME" | "EXPENSE" | null;
+  newTransactionType: "INCOME" | "OUTCOME" | null;
   toggleValueVisibility(): void;
   openNewAccountModal(): void;
   closeNewAccountModal(): void;
-  openNewTransactionModal(type: "INCOME" | "EXPENSE"): void;
+  openNewTransactionModal(type: "INCOME" | "OUTCOME"): void;
   closeNewTransactionModal(): void;
   isEditAccountModalOpen: boolean;
   isEditingAccount: null | BankAccount;
@@ -32,7 +32,7 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
   const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] =
     useState(false);
   const [newTransactionType, setNewTransactionType] = useState<
-    "INCOME" | "EXPENSE" | null
+    "INCOME" | "OUTCOME" | null
   >(null);
 
   const toggleValueVisibility = useCallback(() => {
@@ -55,7 +55,7 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
     setIsEditAccountModalOpen(false);
   }, []);
 
-  const openNewTransactionModal = useCallback((type: "INCOME" | "EXPENSE") => {
+  const openNewTransactionModal = useCallback((type: "INCOME" | "OUTCOME") => {
     setNewTransactionType(type);
     setIsNewTransactionModalOpen(true);
   }, []);

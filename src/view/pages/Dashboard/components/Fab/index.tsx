@@ -1,6 +1,6 @@
 import { PlusIcon } from "@radix-ui/react-icons";
 import { DropdownMenu } from "../../../../components/DropdownMenu";
-import { Expense } from "../../../../components/icons/categories/expense/Expense";
+import { Outcome } from "../../../../components/icons/categories/outcome/Outcome";
 import { Income } from "../../../../components/icons/categories/income/Income";
 import { BankAccountIcon } from "../../../../components/icons/BankAccountIcon";
 import { useDashboard } from "../DashboardContext/useDashboard";
@@ -20,9 +20,9 @@ export function Fab() {
         <DropdownMenu.Content>
           <DropdownMenu.Item
             className="gap-2"
-            onSelect={() => openNewTransactionModal("EXPENSE")}
+            onSelect={() => openNewTransactionModal("OUTCOME")}
           >
-            <Expense />
+            <Outcome />
             Nova Despesa
           </DropdownMenu.Item>
 

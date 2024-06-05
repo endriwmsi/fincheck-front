@@ -11,6 +11,7 @@ import emptyStateImage from "../../../../../assets/img/empty-state.svg";
 import { TransactionTypeDropdown } from "./TransactionTypeDropdown";
 import { FilterIcon } from "../../../../components/icons/FilterIcon";
 import { FiltersModal } from "./FiltersModal";
+import { formatDate } from "../../../../../app/utils/formatDate";
 
 export function Transactions() {
   const {
@@ -84,31 +85,43 @@ export function Transactions() {
               </div>
             )}
 
-            {hasTransactions && !isLoading && (
-              <>
-                <div className="bg-white p-4 rounded-2xl flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-3">
-                    <CategoryIcon type="expense" />
+            {hasTransactions && !isLoading && transactions.map((transaction) => (
+              <div
+                key={transaction.id}
+                className="bg-white p-4 rounded-2xl flex items-center justify-between gap-4"
+              >
+                <div className="flex items-center gap-3">
+                  <CategoryIcon
+                    type={
+                      transaction.type === "OUTCOME" ? "outcome" : "income"
+                    }
+                    category={transaction.category?.icon}
+                  />
 
-                    <div className="flex flex-col">
-                      <strong className="font-bold tracking-[-0.5px]">
-                        Almoço
-                      </strong>
-                      <span className="text-sm text-gray-600">05/05/2024</span>
-                    </div>
+                  <div className="flex flex-col">
+                    <strong className="font-bold tracking-[-0.5px]">
+                      {transaction.name}
+                    </strong>
+                    <span className="text-sm text-gray-600">
+                      {formatDate(new Date(transaction.date))}
+                    </span>
                   </div>
-
-                  <span
-                    className={cn(
-                      "text-red-800 font-medium tracking-[-0.5px]",
-                      !areValuesVisible && "blur-sm"
-                    )}
-                  >
-                    - {formatCurrency(2000)}
-                  </span>
                 </div>
-              </>
-            )}
+
+                <span
+                  className={cn(
+                    "font-medium tracking-[-0.5px]",
+                    transaction.type === "OUTCOME"
+                      ? "text-red-800"
+                      : "text-green-800",
+                    !areValuesVisible && "blur-sm"
+                  )}
+                >
+                  {transaction.type === "OUTCOME" ? "-" : "+"}
+                  {formatCurrency(transaction.value)}
+                </span>
+              </div>
+            ))}
           </main>
         </>
       )}
